@@ -5,15 +5,14 @@ use std::sync::Arc;
 use std::time::Duration;
 
 use byte_unit::Byte;
-use once_cell::sync::Lazy;
+use rand::prelude::SmallRng;
+use rand::{RngCore, SeedableRng};
 use tokio::io::AsyncWriteExt;
 use tokio::net::{TcpListener, TcpStream};
 use tokio::sync::RwLock;
 
 const RESPONSE_HEADER: &str = include_str!("./response-header.txt");
-
-// TODO: switch to random data
-static ZERO: Lazy<Vec<u8>> = Lazy::new(|| vec![0; 1024]);
+const BUFFER_SIZE: usize = 1024;
 
 async fn http_send_header(socket: &mut TcpStream) -> Result<u128, std::io::Error> {
     socket.write_all(RESPONSE_HEADER.as_bytes()).await?;
@@ -30,15 +29,19 @@ async fn handle_client(
 
     println!("[{address}] started serving");
 
+    let mut small_rng = SmallRng::from_entropy();
+    let mut buffer = vec![0; BUFFER_SIZE];
+
     loop {
-        let write_result = socket.write_all(&ZERO).await;
+        small_rng.fill_bytes(&mut buffer);
+        let write_result = socket.write_all(&buffer).await;
 
         if let Err(error) = write_result {
             println!("[{address}] error while writing: {error}");
             break;
         } else {
             resume
-                .increment_address_by(&address, ZERO.len() as u128)
+                .increment_address_by(&address, BUFFER_SIZE as u128)
                 .await;
         }
     }

@@ -5,5 +5,5 @@ edition = "2021"
 
 [dependencies]
 tokio = { version = "1", features = [ "macros", "rt-multi-thread", "io-util", "net", "time", "sync" ] }
-once_cell = "1.9"
 byte-unit = "4"
+rand = { version = "0.8", features = [ "small_rng" ] }
