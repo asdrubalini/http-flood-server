@@ -1,0 +1,9 @@
+[Unit]
+Description=HTTP Flood Server
+After=network-online.target
+
+[Service]
+ExecStart=/usr/bin/http-flood-server/http-flood-server
+
+[Install]
+WantedBy=multi-user.target

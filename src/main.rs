@@ -82,7 +82,7 @@ impl Resume {
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let listener = TcpListener::bind("0.0.0.0:8080").await?;
+    let listener = TcpListener::bind("127.0.0.1:8080").await?;
 
     let resume = Resume::default();
 
