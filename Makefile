@@ -13,3 +13,4 @@ install:
 uninstall:
 	rm -r /usr/bin/$(PROJECT)/
 	rm /etc/systemd/system/$(PROJECT).service
+
