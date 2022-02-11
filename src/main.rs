@@ -41,8 +41,6 @@ async fn handle_client(
                 .increment_address_by(&address, ZERO.len() as u128)
                 .await;
         }
-
-        tokio::time::sleep(Duration::from_nanos(100)).await;
     }
 
     Ok(())
