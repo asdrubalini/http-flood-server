@@ -74,7 +74,7 @@ impl Resume {
         let bytes_total: u128 = inner.iter().map(|(_addr, resume)| resume.bytes_sent).sum();
         let bytes_pretty = Byte::from_bytes(bytes_total).get_appropriate_unit(false);
 
-        println!("clients_count: {clients_count}, bytes_total: {bytes_pretty}");
+        println!("clients_count: {clients_count}, bytes_total: {bytes_pretty}, clients: {inner:?}");
     }
 }
 
